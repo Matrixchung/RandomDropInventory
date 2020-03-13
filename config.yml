@@ -1,0 +1,25 @@
+RandomDrop:
+  Enabled: true
+Property:
+  item_10p:
+    name: 10% Drop
+    lore:
+      - Prop 1
+      - Prop 2
+  item_30p:
+    name: 30% Drop
+    lore:
+      - Prop 1
+      - Prop 2
+  item_50p:
+    name: 50% Drop
+    lore:
+      - Prop 1
+      - Prop 2
+  item_70p:
+    name: 70% Drop
+    lore:
+      - Prop 1
+      - Prop 2
+disabledWorlds:
+  - world_disabled

@@ -1,0 +1,9 @@
+name: RandomDropInventory
+main: com.matrix.randomdrop.main
+author: Matrixchung
+version: 1.0
+api-version: 1.12
+commands:
+  randomdrop:
+    usage: /randomdrop get <player> <item>
+    permission: randomdrop.op
