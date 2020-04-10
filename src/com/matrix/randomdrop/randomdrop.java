@@ -15,6 +15,7 @@ public class randomdrop {
     //玩家物品栏第一行 9
     //玩家物品栏第三行 35 共27格
     public void generateDropList(Inventory inv, Player player, double percentage){
+
         Random random = new Random();
         int randomSlots=9,setSize=0;
         int times=0;
@@ -41,7 +42,7 @@ public class randomdrop {
                 try{
                     drop=inv.getItem(randomSlots);
                     inv.clear(randomSlots);
-                    world.dropItem(loc,drop).setPickupDelay(100);
+                    world.dropItemNaturally(loc,drop);
                 }
                 catch(Exception e){e.printStackTrace();}
             }

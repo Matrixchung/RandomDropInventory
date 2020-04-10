@@ -7,8 +7,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
@@ -18,18 +20,30 @@ public class OnPlayerDeath implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
-        if(player.hasPermission("randomdrop.enable")&&!(player.getWorld().equals(worldList))) {
+        DamageCause cause = e.getEntity().getLastDamageCause().getCause();
+        if(player.hasPermission("randomdrop.enable")&&!(worldList.contains(player.getWorld().getName()))&&!(cause==DamageCause.VOID||cause==DamageCause.LAVA)) {
             if(!e.getKeepInventory()) {
                 e.setKeepInventory(true);
                 e.setKeepLevel(true);
             }
             e.setDroppedExp(0);
             Inventory inv = player.getInventory();
-            if(inv.contains(createitem.item_10p)){inv.remove(createitem.item_10p);RandomDrop.generateDropList(inv,player,0.1);}
-            else if(inv.contains(createitem.item_30p)) {inv.remove(createitem.item_30p);RandomDrop.generateDropList(inv,player,0.3);}
-            else if(inv.contains(createitem.item_50p)) {inv.remove(createitem.item_50p);RandomDrop.generateDropList(inv,player,0.5);}
-            else if(inv.contains(createitem.item_70p)) {inv.remove(createitem.item_70p);RandomDrop.generateDropList(inv,player,0.7);}
-            else {RandomDrop.generateDropList(inv,player,0.8);}
+            RandomDrop.generateDropList(inv,player,checkItems(inv));
+        }
+    }
+    public double checkItems(Inventory inv){
+        try{
+            ItemStack[] stack = inv.getContents();
+            for(ItemStack it:stack){
+                if(it.isSimilar(createitem.item_10p)) {it.setAmount(it.getAmount()-1);return 0.1;}
+                else if(it.isSimilar(createitem.item_30p)) {it.setAmount(it.getAmount()-1);return 0.3;}
+                else if(it.isSimilar(createitem.item_50p)) {it.setAmount(it.getAmount()-1);return 0.5;}
+                else if(it.isSimilar(createitem.item_70p)) {it.setAmount(it.getAmount()-1);return 0.7;}
+            }
+            return 0.8;
+        }
+        catch (Exception e){
+            return 0.8;
         }
     }
 }
